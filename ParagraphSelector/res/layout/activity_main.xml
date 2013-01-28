@@ -1,6 +1,30 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity" >
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1"
+    android:gravity="top">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:background="@color/grey"
+        android:layout_weight="0.18">
+        <Spinner
+            android:id="@+id/word_spinner"
+            android:layout_width="150dp"
+            android:layout_height="50dp" />
+         <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/input_text"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.82"
+        android:layout_gravity="top"
+        android:padding="10dp" />
+</LinearLayout>
