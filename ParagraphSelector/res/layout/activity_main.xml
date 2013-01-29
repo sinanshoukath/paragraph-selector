@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -13,18 +14,24 @@
         android:layout_weight="0.18">
         <Spinner
             android:id="@+id/word_spinner"
-            android:layout_width="150dp"
-            android:layout_height="50dp" />
+            android:layout_width="175dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"/>
          <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/search"/>
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:text="@string/search"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/input_text"
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.82"
-        android:layout_gravity="top"
-        android:padding="10dp" />
+        android:layout_weight="0.82">
+        <TextView
+          android:id="@+id/input_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="top"
+          android:padding="10dp" />
+    </ScrollView>
 </LinearLayout>

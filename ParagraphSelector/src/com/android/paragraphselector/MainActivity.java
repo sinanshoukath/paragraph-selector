@@ -1,10 +1,14 @@
 package com.android.paragraphselector;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.content.res.AssetManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 /*
  * Main class for Paragraph Selector
@@ -16,6 +20,21 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    TextView input_text = (TextView) findViewById(R.id.input_text);
+    AssetManager assetManager = getAssets();
+    InputStream input;
+    try {
+      input = assetManager.open("input_text.txt");
+      int size = input.available();
+      byte[] buffer = new byte[size];
+      input.read(buffer);
+      input.close();
+      String text = new String(buffer);
+      input_text.setText(text);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
     Spinner spinner = (Spinner) findViewById(R.id.word_spinner);
     String[] array_spinner = {"fixed", "drive", "car", "surrounding", "little", "property", "para",
         "bus", "trust", "person"};
