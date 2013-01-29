@@ -17,15 +17,10 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     Spinner spinner = (Spinner) findViewById(R.id.word_spinner);
-    String[] array_spinner = {"fixed", "drive", "car", "surrounding", "little", "property", "para", "bus", "trust", "person"};
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array_spinner);
+    String[] array_spinner = {"fixed", "drive", "car", "surrounding", "little", "property", "para",
+        "bus", "trust", "person"};
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.
+         simple_spinner_item, array_spinner);
     spinner.setAdapter(adapter);
-    }
-
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-	getMenuInflater().inflate(R.menu.activity_main, menu);
-    return true;
   }
 }
