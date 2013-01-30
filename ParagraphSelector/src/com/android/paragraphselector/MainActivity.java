@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.res.AssetManager;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,17 +19,15 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    TextView input_text = (TextView) findViewById(R.id.input_text);
-    AssetManager assetManager = getAssets();
+    TextView input_Text = (TextView) findViewById(R.id.input_text);
     InputStream input;
     try {
-      input = assetManager.open("input_text.txt");
+      input = getAssets().open("input_text.txt");
       int size = input.available();
       byte[] buffer = new byte[size];
       input.read(buffer);
       input.close();
-      String text = new String(buffer);
-      input_text.setText(text);
+      input_Text.setText(new String(buffer));
     }
     catch (IOException e) {
       e.printStackTrace();
