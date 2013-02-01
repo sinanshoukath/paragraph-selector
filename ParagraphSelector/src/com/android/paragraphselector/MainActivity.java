@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 /*
@@ -38,20 +38,34 @@ public class MainActivity extends Activity {
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         android.R.layout.simple_spinner_item, array_spinner);
     spinner.setAdapter(adapter);
-    Button searchButton = (Button)findViewById(R.id.search);
+    ImageButton searchButton = (ImageButton)findViewById(R.id.search);
     searchButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(spinner.getSelectedItem().toString(), webView);
+        searchText(spinner.getSelectedItem().toString(), webView, true);
+      }
+    });
+    ImageButton upButton = (ImageButton)findViewById(R.id.search_up);
+    upButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        searchText(spinner.getSelectedItem().toString(), webView, false);
+      }
+    });
+    ImageButton downButton = (ImageButton)findViewById(R.id.search_down);
+    downButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        searchText(spinner.getSelectedItem().toString(), webView, true);
       }
     });
   }
 
   @SuppressWarnings("deprecation")
-  private void searchText(String text, WebView webView) {
+  private void searchText(String text, WebView webView, boolean direction) {
     webView.findAll(text);
     webView.setSelected(true);
-    webView.findNext(true);
+    webView.findNext(direction);
     try {
       for(Method m : WebView.class.getDeclaredMethods()) {
         if(m.getName().equals("setFindIsUp")) {

@@ -11,23 +11,44 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:background="@color/grey"
-        android:layout_weight="0.18">
+        android:layout_weight="0.15">
         <Spinner
             android:id="@+id/word_spinner"
-            android:layout_width="175dp"
+            android:layout_width="140dp"
             android:layout_height="50dp"
-            android:layout_marginRight="5dp"/>
-         <Button
-            android:layout_width="85dp"
-            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/list_button_bg"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/search"
-            android:text="@string/search"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/search"
+            android:background="@drawable/button_bg"/>
+         <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_down"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/down_arrow"
+            android:background="@drawable/button_bg"/>
+         <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_up"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/up_arrow"
+            android:background="@drawable/button_bg"/>
     </LinearLayout>
+
     <WebView
-          android:id="@+id/webview"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_weight="0.82"
-          android:padding="10dp" />
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:padding="10dp" />
+
 </LinearLayout>
