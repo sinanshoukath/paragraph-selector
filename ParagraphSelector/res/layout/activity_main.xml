@@ -20,6 +20,7 @@
          <Button
             android:layout_width="85dp"
             android:layout_height="50dp"
+            android:id="@+id/search"
             android:text="@string/search"
             android:layout_marginLeft="5dp"/>
     </LinearLayout>
