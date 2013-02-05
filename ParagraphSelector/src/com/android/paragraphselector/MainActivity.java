@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /*
  * Main class for Paragraph Selector
@@ -42,28 +43,28 @@ public class MainActivity extends Activity {
     searchButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(spinner.getSelectedItem().toString(), webView, true);
+        searchText(spinner.getSelectedItem().toString(), webView, true, true);
       }
     });
     ImageButton upButton = (ImageButton)findViewById(R.id.search_up);
     upButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(spinner.getSelectedItem().toString(), webView, false);
+        searchText(spinner.getSelectedItem().toString(), webView, false, false);
       }
     });
     ImageButton downButton = (ImageButton)findViewById(R.id.search_down);
     downButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(spinner.getSelectedItem().toString(), webView, true);
+        searchText(spinner.getSelectedItem().toString(), webView, true, false);
       }
     });
   }
 
   @SuppressWarnings("deprecation")
-  private void searchText(String text, WebView webView, boolean direction) {
-    webView.findAll(text);
+  private void searchText(String text, WebView webView, boolean direction,boolean showToast) {
+    int count = webView.findAll(text);
     webView.setSelected(true);
     webView.findNext(direction);
     try {
@@ -74,6 +75,10 @@ public class MainActivity extends Activity {
         }
       }
     }catch (Exception ignored) {
+    }
+    if(showToast) {
+      Toast.makeText(getApplicationContext(), "Found "+String.valueOf(count),
+          Toast.LENGTH_SHORT).show();
     }
   }
 }
