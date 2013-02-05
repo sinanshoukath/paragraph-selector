@@ -5,13 +5,13 @@ import java.lang.reflect.Method;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 /*
@@ -33,37 +33,32 @@ public class MainActivity extends Activity {
         dialog.dismiss();
       }
     });
-    final Spinner spinner = (Spinner) findViewById(R.id.word_spinner);
-    String[] array_spinner = {"fixed", "drive", "car", "surrounding", "little", "property", "para",
-        "bus", "trust", "person"};
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_spinner_item, array_spinner);
-    spinner.setAdapter(adapter);
+    final EditText editText = (EditText)findViewById(R.id.edittext);
     ImageButton searchButton = (ImageButton)findViewById(R.id.search);
     searchButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(spinner.getSelectedItem().toString(), webView, true, true);
+        searchText(editText.getText().toString(), webView, true, true);
       }
     });
     ImageButton upButton = (ImageButton)findViewById(R.id.search_up);
     upButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(spinner.getSelectedItem().toString(), webView, false, false);
+        searchText(editText.getText().toString(), webView, false, false);
       }
     });
     ImageButton downButton = (ImageButton)findViewById(R.id.search_down);
     downButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(spinner.getSelectedItem().toString(), webView, true, false);
+        searchText(editText.getText().toString(), webView, true, false);
       }
     });
   }
 
   @SuppressWarnings("deprecation")
-  private void searchText(String text, WebView webView, boolean direction,boolean showToast) {
+  private void searchText(String text, WebView webView, boolean direction, boolean showToast) {
     int count = webView.findAll(text);
     webView.setSelected(true);
     webView.findNext(direction);
@@ -77,8 +72,17 @@ public class MainActivity extends Activity {
     }catch (Exception ignored) {
     }
     if(showToast) {
-      Toast.makeText(getApplicationContext(), "Found "+String.valueOf(count),
-          Toast.LENGTH_SHORT).show();
+      if(count==0) {
+        Toast toast = Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
+      }
+      else {
+        Toast toast = Toast.makeText(getApplicationContext(),
+            text + " found at " + String.valueOf(count) + " locations", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
+      }
     }
   }
 }
