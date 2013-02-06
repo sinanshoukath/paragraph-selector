@@ -33,26 +33,26 @@ public class MainActivity extends Activity {
         dialog.dismiss();
       }
     });
-    final EditText editText = (EditText)findViewById(R.id.edittext);
+    final EditText searchBox = (EditText)findViewById(R.id.edittext);
     ImageButton searchButton = (ImageButton)findViewById(R.id.search);
     searchButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(editText.getText().toString(), webView, true, true);
+        searchText(searchBox.getText().toString(), webView, true, true);
       }
     });
     ImageButton upButton = (ImageButton)findViewById(R.id.search_up);
     upButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(editText.getText().toString(), webView, false, false);
+        searchText(searchBox.getText().toString(), webView, false, false);
       }
     });
     ImageButton downButton = (ImageButton)findViewById(R.id.search_down);
     downButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(editText.getText().toString(), webView, true, false);
+        searchText(searchBox.getText().toString(), webView, true, false);
       }
     });
   }
@@ -76,8 +76,7 @@ public class MainActivity extends Activity {
         Toast toast = Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
-      }
-      else {
+      } else {
         Toast toast = Toast.makeText(getApplicationContext(),
             text + " found at " + String.valueOf(count) + " locations", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
