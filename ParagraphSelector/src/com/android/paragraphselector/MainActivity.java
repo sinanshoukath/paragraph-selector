@@ -1,15 +1,18 @@
 package com.android.paragraphselector;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -19,12 +22,13 @@ import android.widget.Toast;
  * @author Sinan Shoukath
  */
 public class MainActivity extends Activity {
+  private WebView webView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    final WebView webView = (WebView)findViewById(R.id.webview);
+    webView = (WebView)findViewById(R.id.webview);
     final ProgressDialog dialog = ProgressDialog.show(this, "Paragraph Selector", "Loading data");
     webView.loadUrl("file:///android_asset/input_text.txt");
     webView.setWebViewClient(new WebViewClient() {
@@ -55,10 +59,19 @@ public class MainActivity extends Activity {
         searchText(searchBox.getText().toString(), webView, true, false);
       }
     });
+    Button loadFile = (Button)findViewById(R.id.browse);
+    loadFile.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        final int ACTIVITY_SELECT_TEXT = 1234;
+        startActivityForResult(i, ACTIVITY_SELECT_TEXT);
+      }
+    });
   }
 
   @SuppressWarnings("deprecation")
-  private void searchText(String text, WebView webView, boolean direction, boolean showToast) {
+  private void searchText(String text, WebView webView, boolean direction, boolean show) {
     int count = webView.findAll(text);
     webView.setSelected(true);
     webView.findNext(direction);
@@ -71,16 +84,42 @@ public class MainActivity extends Activity {
       }
     }catch (Exception ignored) {
     }
-    if(showToast) {
+    if(show) {
       if(count==0) {
-        Toast toast = Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.show();
+        showToast("Not found");
       } else {
-        Toast toast = Toast.makeText(getApplicationContext(),
-            text + " found at " + String.valueOf(count) + " locations", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.show();
+        showToast(text + " found at " + String.valueOf(count) + " locations");
+      }
+    }
+  }
+  private void showToast(String message) {
+	Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+      toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+      toast.show();
+  }
+
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    switch(requestCode) {
+      case 1234:
+      if(resultCode == RESULT_OK) {
+        File file = new File(data.getData().getPath());
+        String filenameArray[] = file.getName().split("\\.");
+        String extension = filenameArray[filenameArray.length-1];
+        if(extension.equals("txt")) {
+          webView.loadUrl("file:///" + file.getAbsolutePath());
+          final ProgressDialog dialog = ProgressDialog.show(this,
+              "Paragraph Selector", "Loading data");
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                  dialog.dismiss();
+                }
+              });
+            webView.invalidate();
+        } else {
+          showToast("Invalid input");
+        }
       }
     }
   }

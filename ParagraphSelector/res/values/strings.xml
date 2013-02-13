@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">ParagraphSelector</string>
     <string name="search">Search</string>
+    <string name="Browse">Load File</string>
 </resources>

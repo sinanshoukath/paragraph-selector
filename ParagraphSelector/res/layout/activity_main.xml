@@ -47,6 +47,18 @@
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.85"
+        android:layout_weight="0.75"
         android:padding="10dp" />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_weight="0.10"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="@color/grey">
+    <Button
+            android:id="@+id/browse"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Browse"/>
+    </LinearLayout>
 </LinearLayout>
