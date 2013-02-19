@@ -1,3 +1,4 @@
+// Copyright (C) 2013 Trymph Inc.
 package com.android.paragraphselector;
 
 import java.io.File;
@@ -23,40 +24,34 @@ import android.widget.Toast;
  */
 public class MainActivity extends Activity {
   private WebView webView;
+  public static int ACTIVITY_SELECT_TEXT = 1234;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     webView = (WebView)findViewById(R.id.webview);
-    final ProgressDialog dialog = ProgressDialog.show(this, "Paragraph Selector", "Loading data");
-    webView.loadUrl("file:///android_asset/input_text.txt");
-    webView.setWebViewClient(new WebViewClient() {
-      @Override
-      public void onPageFinished(WebView view, String url) {
-        dialog.dismiss();
-      }
-    });
+    showText("file:///android_asset/input_text.txt");
     final EditText searchBox = (EditText)findViewById(R.id.edittext);
     ImageButton searchButton = (ImageButton)findViewById(R.id.search);
     searchButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(searchBox.getText().toString(), webView, true, true);
+        searchText(searchBox.getText().toString(), true, true);
       }
     });
     ImageButton upButton = (ImageButton)findViewById(R.id.search_up);
     upButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(searchBox.getText().toString(), webView, false, false);
+        searchText(searchBox.getText().toString(), false, false);
       }
     });
     ImageButton downButton = (ImageButton)findViewById(R.id.search_down);
     downButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        searchText(searchBox.getText().toString(), webView, true, false);
+        searchText(searchBox.getText().toString(), true, false);
       }
     });
     Button loadFile = (Button)findViewById(R.id.browse);
@@ -64,15 +59,15 @@ public class MainActivity extends Activity {
       @Override
       public void onClick(View v) {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        final int ACTIVITY_SELECT_TEXT = 1234;
         startActivityForResult(i, ACTIVITY_SELECT_TEXT);
       }
     });
   }
 
   @SuppressWarnings("deprecation")
-  private void searchText(String text, WebView webView, boolean direction, boolean show) {
-    int count = webView.findAll(text);
+  private void searchText(String text, boolean direction, boolean show) {
+    String textTobeSearched = " " + text + " ";
+	int count = webView.findAll(textTobeSearched);
     webView.setSelected(true);
     webView.findNext(direction);
     try {
@@ -92,12 +87,14 @@ public class MainActivity extends Activity {
       }
     }
   }
+
   private void showToast(String message) {
 	Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
       toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
       toast.show();
   }
 
+  @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     switch(requestCode) {
@@ -107,20 +104,23 @@ public class MainActivity extends Activity {
         String filenameArray[] = file.getName().split("\\.");
         String extension = filenameArray[filenameArray.length-1];
         if(extension.equals("txt")) {
-          webView.loadUrl("file:///" + file.getAbsolutePath());
-          final ProgressDialog dialog = ProgressDialog.show(this,
-              "Paragraph Selector", "Loading data");
-            webView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                  dialog.dismiss();
-                }
-              });
-            webView.invalidate();
+          showText("file:///" + file.getAbsolutePath());
+          webView.invalidate();
         } else {
           showToast("Invalid input");
         }
       }
     }
+  }
+
+  private void showText(String url) {
+    final ProgressDialog dialog = ProgressDialog.show(this, "Paragraph Selector", "Loading data");
+	webView.loadUrl(url);
+	webView.setWebViewClient(new WebViewClient() {
+	  @Override
+	  public void onPageFinished(WebView view, String url) {
+	    dialog.dismiss();
+	  }
+	});
   }
 }
