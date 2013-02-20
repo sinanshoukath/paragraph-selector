@@ -24,7 +24,7 @@ import android.widget.Toast;
  */
 public class MainActivity extends Activity {
   private WebView webView;
-  public static int ACTIVITY_SELECT_TEXT = 1234;
+  final static int ACTIVITY_SELECT_TEXT = 1234;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,29 +35,25 @@ public class MainActivity extends Activity {
     final EditText searchBox = (EditText)findViewById(R.id.edittext);
     ImageButton searchButton = (ImageButton)findViewById(R.id.search);
     searchButton.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         searchText(searchBox.getText().toString(), true, true);
       }
     });
     ImageButton upButton = (ImageButton)findViewById(R.id.search_up);
     upButton.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         searchText(searchBox.getText().toString(), false, false);
       }
     });
     ImageButton downButton = (ImageButton)findViewById(R.id.search_down);
     downButton.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         searchText(searchBox.getText().toString(), true, false);
       }
     });
     Button loadFile = (Button)findViewById(R.id.browse);
     loadFile.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         startActivityForResult(i, ACTIVITY_SELECT_TEXT);
       }
@@ -67,7 +63,7 @@ public class MainActivity extends Activity {
   @SuppressWarnings("deprecation")
   private void searchText(String text, boolean direction, boolean show) {
     String textTobeSearched = " " + text + " ";
-	int count = webView.findAll(textTobeSearched);
+    int count = webView.findAll(textTobeSearched);
     webView.setSelected(true);
     webView.findNext(direction);
     try {
@@ -89,9 +85,9 @@ public class MainActivity extends Activity {
   }
 
   private void showToast(String message) {
-	Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
-      toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-      toast.show();
+    Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+    toast.show();
   }
 
   @Override
@@ -115,12 +111,11 @@ public class MainActivity extends Activity {
 
   private void showText(String url) {
     final ProgressDialog dialog = ProgressDialog.show(this, "Paragraph Selector", "Loading data");
-	webView.loadUrl(url);
-	webView.setWebViewClient(new WebViewClient() {
-	  @Override
-	  public void onPageFinished(WebView view, String url) {
-	    dialog.dismiss();
-	  }
-	});
+    webView.loadUrl(url);
+    webView.setWebViewClient(new WebViewClient() {
+      @Override public void onPageFinished(WebView view, String url) {
+        dialog.dismiss();
+      }
+    });
   }
 }
